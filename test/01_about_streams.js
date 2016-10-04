@@ -72,52 +72,53 @@ test('simple return', function () {
 test('the last event', function () {
     let received = ''
     let names = ['foo', 'bar']
-    Observable.from(names).subscribe(function (x) {
+    Observable.from(names).subscribe((x) => {
         received = x
     })
 
-    equal(__, received)
+    equal('bar', received)
 })
 
 test('everything counts', function () {
     let received = 0
     let numbers = [3, 4]
-    Observable.from(numbers).subscribe(function (x) {
+    Observable.from(numbers).subscribe((x) => {
         received += x
     })
 
-    equal(__, received)
+    equal(7, received)
 })
 
 test('this is still an event stream', function () {
     let received = 0
     let numbers = new Subject()
-    numbers.subscribe(function (x) {
+    numbers.subscribe((x) => {
         received += x
     })
 
     numbers.onNext(10)
     numbers.onNext(5)
 
-    equal(__, received)
+    equal(15, received)
 })
 
+// LOL
 test('all events will be received', function () {
     let received = 'Working '
     let numbers = Range.create(9, 5)
 
-    Observable.from(numbers).subscribe(function (x) {
+    Observable.from(numbers).subscribe((x) => {
         received += x
     })
 
-    equal(__, received)
+    equal('98765', received)
 })
 
 test('do things in the middle', function () {
     let status = []
     let daysTilTest = Observable.from(Range.create(4, 1))
 
-    daysTilTest.tap(function (d) {
+    daysTilTest.tap((d) => {
         status.push(d + '=' + (d === 1 ? 'Study Like Mad' : __))
     }).subscribe()
 
@@ -127,7 +128,7 @@ test('do things in the middle', function () {
 test('nothing listens until you subscribe', function () {
     let sum = 0,
         numbers = Observable.from(Range.create(1, 10)),
-        observable = numbers.tap(function (n) {
+        observable = numbers.tap((n) => {
             sum += n
         })
 
@@ -140,7 +141,7 @@ test('nothing listens until you subscribe', function () {
 test('events before you subscribe do not count', function () {
     let sum = 0,
         numbers = new Subject(),
-        observable = numbers.tap(function (n) {
+        observable = numbers.tap((n) => {
             sum += n
         })
 
@@ -158,7 +159,7 @@ test('events before you subscribe do not count', function () {
 test('events after you unsubscribe dont count', function () {
     let sum = 0,
         numbers = new Subject(),
-        observable = numbers.tap(function (n) {
+        observable = numbers.tap((n) => {
             sum += n
         }),
         subscription = observable.subscribe()
