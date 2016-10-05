@@ -3,7 +3,8 @@ let Rx = require('rx'),
     Subject = Rx.Subject,
     Range = require('../util/range')
 
-// QUnit.module('Observable Streams')
+//noinspection JSAnnotator
+QUnit.module('Observable Streams')
 
 let __ = 'Fill in the blank'
 

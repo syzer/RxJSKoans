@@ -1,86 +1,100 @@
-var Rx = require('rx'),
+let Rx = require('rx'),
     Observable = Rx.Observable,
     Subject = Rx.Subject,
-    Range = require('../util/range');
+    Range = require('../util/range')
 
-QUnit.module('Composable Observations');
+//noinspection JSAnnotator
+QUnit.module('Composable Observations')
 
-var __ = 'Fill in the blank';
+let __ = 'Fill in the blank'
 
-test('composable add', function () {
-  var received = 0,
-      numbers = [10, 100, __];
+test('composable add', () => {
+    let received = 0,
+        numbers = [10, 100, 1000]
 
-  Observable.from(numbers).sum().subscribe(function (x) { received = x; });
+    Observable.from(numbers)
+        .sum()
+        .subscribe(x => {
+            received = x
+        })
 
-  equal(1110, received);
-});
+    equal(1110, received)
+})
 
-test('composable before and after', function () {
-  var names = Range.create(1, 6),
-      a = '',
-      b = '';
+test('composable before and after', () => {
+    let names = Range.create(1, 6),
+        a = '',
+        b = ''
 
-  Observable.from(names)
-    .tap(function (n) { a += n; })
-    .filter(function (n) { return n % 2 === 0; })
-    .tap(function (n) { b += n; })
-    .subscribe();
+    Observable.from(names)
+        .tap(n => a += n)
+        .filter(n => n % 2 === 0)
+        .tap(n => b += n)
+        .subscribe()
 
-  equal(__, a);
-  equal('246', b);
-});
+    equal('123456', a)
+    equal('246', b)
+})
 
-test('we wrote this', function () {
-  var received = [],
-      names = ["Bart", "Marge", "Wes", "Linus", "Erik", "Matt"];
+test('we wrote this', () => {
+    let received = [],
+        names = ['Bart', 'Marge', 'Wes', 'Linus', 'Erik', 'Matt']
 
-  Observable.from(names)
-    .filter(function (n) { return n.length <= __; })
-    .subscribe(received.push.bind(received));
+    Observable.from(names)
+        .filter(n => n.length <= 4)
+        .subscribe(received.push.bind(received))
 
-  equal('Bart,Wes,Erik,Matt', received);
-});
+    equal('Bart,Wes,Erik,Matt', received)
+})
 
-test('converting events', function () {
-  var received = '',
-      names = ["wE", "hOpE", "yOU", "aRe", "eNJoyIng", "tHiS"];
+test('converting events', () => {
+    let received = '',
+        names = ['wE', 'hOpE', 'yOU', 'aRe', 'eNJoyIng', 'tHiS']
 
-  Observable.from(names)
-    .map(function (x) { return x.__(); })
-    .subscribe(function (x) { received += x + ' '; });
+    Observable.from(names)
+        .map(x => x.__())
+        .subscribe(x => {
+            received += x + ' '
+        })
 
-  equal('we hope you are enjoying this ', received);
-});
+    equal('we hope you are enjoying this ', received)
+})
 
-test('create a more relevant stream', function () {
-  var received = '',
-      mouseXMovements = [100, 200, 150],
-      relativemouse = Observable.from(mouseXMovements).map(function (x) { return x - __; });
+test('create a more relevant stream', () => {
+    let received = '',
+        mouseXMovements = [100, 200, 150],
+        relativemouse = Observable.from(mouseXMovements)
+            .map(x => x - __)
 
-  relativemouse.subscribe(function (x) { received += x + ', '; });
+    relativemouse.subscribe(x => {
+        received += x + ', '
+    })
 
-  equal('50, 150, 100, ', received);
-});
+    equal('50, 150, 100, ', received)
+})
 
-test('checking everything', function () {
-  var received = null,
-      names = [2,4,6,8];
+test('checking everything', () => {
+    let received = null,
+        names = [2, 4, 6, 8]
 
-  Observable.from(names)
-    .every(function (x) { return x % 2 === 0; })
-    .subscribe(function (x) { received = x; });
+    Observable.from(names)
+        .every(x => x % 2 === 0)
+        .subscribe(x => {
+            received = x
+        })
 
-  equal(__, received);
-});
+    equal(__, received)
+})
 
-test('composition means the sum is greater than the parts', function () {
-  var received = 0,
-      numbers = Observable.range(1, 10);
+test('composition means the sum is greater than the parts', () => {
+    let received = 0,
+        numbers = Observable.range(1, 10)
 
-  numbers.filter(function (x) { return x > __; })
-    .sum()
-    .subscribe(function (x) { received = x; });
+    numbers.filter(x => x > __)
+        .sum()
+        .subscribe(x => {
+            received = x
+        })
 
-  equal(19, received);
-});
+    equal(19, received)
+})
