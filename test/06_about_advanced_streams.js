@@ -1,89 +1,92 @@
-var Rx = require('rx'),
+let Rx = require('rx'),
     Observable = Rx.Observable,
-    Subject = Rx.Subject;
+    Subject = Rx.Subject
 
-QUnit.module('Advanced Streams');
+//noinspection JSAnnotator
+QUnit.module('Advanced Streams')
 
-var __ = 'Fill in the blank';
+let __ = 'Fill in the blank'
 
-test('merging', function () {
-  var easy = [];
-  var you = Observable.of(1,2,3);
-  var me = Observable.of('A','B','C');
-  you.merge(me).subscribe(easy.push.bind(easy));
-  equal(easy.join(' '), __);
-});
+test('merging', () => {
+    let easy = []
+    let you = Observable.of(1, 2, 3)
+    let me = Observable.of('A', 'B', 'C')
+    you.merge(me).subscribe(easy.push.bind(easy))
+    equal(easy.join(' '), '1 A 2 B 3 C')
+})
 
-test('merging events', function () {
-  var first = [];
-  var both = [];
+test('merging events', () => {
+    let first = []
+    let both = []
 
-  var s1 = new Subject();
-  var s2 = new Subject();
+    let s1 = new Subject()
+    let s2 = new Subject()
 
-  s1.subscribe(first.push.bind(first));
-  s1.merge(s2).subscribe(both.push.bind(both));
+    s1.subscribe(first.push.bind(first))
+    s1.merge(s2).subscribe(both.push.bind(both))
 
-  s1.onNext('I');
-  s1.onNext('am');
-  s2.onNext('nobody.');
-  s2.onNext('Nobody');
-  s2.onNext('is');
-  s1.onNext('perfect.');
+    s1.onNext('I')
+    s1.onNext('am')
+    s2.onNext('nobody.')
+    s2.onNext('Nobody')
+    s2.onNext('is')
+    s1.onNext('perfect.')
 
-  equal('I am nobody. Nobody is perfect.', both.join(' '));
-  equal(__, first.join(' '));
-});
+    equal('I am nobody. Nobody is perfect.', both.join(' '))
+    equal(__, first.join(' '))
+})
 
-test('splitting up', function () {
-  var oddsAndEvens = [];
-  var numbers = Observable.range(1, 9);
-  var split = numbers.groupBy(function (n) { return n % __; });
-  split.subscribe(function (group) {
-    group.subscribe(function (n) {
-      oddsAndEvens[group.key] || (oddsAndEvens[group.key] = '');
-      oddsAndEvens[group.key] += n;
+test('splitting up', () => {
+    let oddsAndEvens = []
+    let numbers = Observable.range(1, 9)
+    let split = numbers.groupBy((n) => n % __)
+    split.subscribe(group => {
+        group.subscribe((n) => {
+            oddsAndEvens[group.key] || (oddsAndEvens[group.key] = '')
+            oddsAndEvens[group.key] += n
+        })
     })
-  });
 
-  equal('2468', oddsAndEvens[0]);
-  equal('13579', oddsAndEvens[1]);
-});
+    equal('2468', oddsAndEvens[0])
+    equal('13579', oddsAndEvens[1])
+})
 
-test('need to subscribe immediately when splitting', function () {
-  var averages = [0,0];
-  var numbers = Observable.of(22,22,99,22,101,22);
-  var split = numbers.groupBy(function (n) { return n % 2; });
+test('need to subscribe immediately when splitting', () => {
+    let averages = [0, 0]
+    let numbers = Observable.of(22, 22, 99, 22, 101, 22)
+    let split = numbers.groupBy((n) => n % 2)
 
-  split.subscribe(function (g) {
-    g.average().__(function (a) { averages[g.key] = a; });
-  });
+    split.subscribe(g => {
+        g.average().__(a => {
+            averages[g.key] = a
+        })
+    })
 
-  equal(22, averages[0]);
-  equal(100, averages[1]);
-});
+    equal(22, averages[0])
+    equal(100, averages[1])
+})
 
-test('multiple subscriptions', function () {
-  var numbers = new Subject();
-  var sum = 0;
-  var average = 0;
+test('multiple subscriptions', () => {
+    let numbers = new Subject()
+    let sum = 0
+    let average = 0
 
-  numbers.sum().subscribe(function (n) { sum = n; });
-  numbers.onNext(1);
-  numbers.onNext(1);
-  numbers.onNext(1);
-  numbers.onNext(1);
-  numbers.onNext(1);
+    numbers.sum().subscribe((n) => sum = n)
+    numbers.onNext(1)
+    numbers.onNext(1)
+    numbers.onNext(1)
+    numbers.onNext(1)
+    numbers.onNext(1)
 
-  numbers.average().subscribe(function (n) { average = n; });
-  numbers.onNext(2);
-  numbers.onNext(2);
-  numbers.onNext(2);
-  numbers.onNext(2);
-  numbers.onNext(2);
+    numbers.average().subscribe((n) => average = n)
+    numbers.onNext(2)
+    numbers.onNext(2)
+    numbers.onNext(2)
+    numbers.onNext(2)
+    numbers.onNext(2)
 
-  numbers.onCompleted();
+    numbers.onCompleted()
 
-  equal(15, sum);
-  equal(__, average);
-});
+    equal(15, sum)
+    equal(__, average)
+})
