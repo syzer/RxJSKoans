@@ -11,7 +11,7 @@ let __ = 'Fill in the blank'
 asyncTest('launching an event via a scheduler', () => {
     let state = null
     let received = ''
-    let delay = 600 // Fix this value
+    let delay = 500 // Fix this value
     Scheduler.default.scheduleFuture(state, delay, (scheduler, state) => {
         received = 'Finished'
     })
@@ -24,7 +24,7 @@ asyncTest('launching an event via a scheduler', () => {
 
 asyncTest('launching an event in the future', () => {
     let received = null
-    let time = __
+    let time = 500
 
     let people = new Subject()
     people.delay(time).subscribe(x => received = x)
@@ -39,18 +39,18 @@ asyncTest('launching an event in the future', () => {
 asyncTest('a watched pot', () => {
     let received = ''
     let delay = 500
-    let timeout = __
+    let timeout = 600
     let timeoutEvent = Observable.just('Tepid')
 
     Observable
         .just('Boiling')
         .delay(delay)
         .timeout(timeout, timeoutEvent)
-        .subscribe(function (x) {
+        .subscribe(x => {
             received = x
         })
 
-    setTimeout(function () {
+    setTimeout(() => {
         equal(received, 'Boiling')
         start()
     }, 500)
