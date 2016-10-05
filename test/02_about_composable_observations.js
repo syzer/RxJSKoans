@@ -52,7 +52,7 @@ test('converting events', () => {
         names = ['wE', 'hOpE', 'yOU', 'aRe', 'eNJoyIng', 'tHiS']
 
     Observable.from(names)
-        .map(x => x.__())
+        .map(x => x.toLocaleLowerCase())
         .subscribe(x => {
             received += x + ' '
         })
@@ -64,7 +64,7 @@ test('create a more relevant stream', () => {
     let received = '',
         mouseXMovements = [100, 200, 150],
         relativemouse = Observable.from(mouseXMovements)
-            .map(x => x - __)
+            .map(x => x - 50)
 
     relativemouse.subscribe(x => {
         received += x + ', '
@@ -83,14 +83,14 @@ test('checking everything', () => {
             received = x
         })
 
-    equal(__, received)
+    equal(true, received)
 })
 
 test('composition means the sum is greater than the parts', () => {
     let received = 0,
         numbers = Observable.range(1, 10)
 
-    numbers.filter(x => x > __)
+    numbers.filter(x => x > 8)
         .sum()
         .subscribe(x => {
             received = x
