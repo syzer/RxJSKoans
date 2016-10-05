@@ -36,7 +36,7 @@ asyncTest('launching an event in the future', () => {
     }, 500)
 })
 
-asyncTest('a watched pot', () => {
+asyncTest('A watched pot', () => {
     let received = ''
     let delay = 500
     let timeout = 600
@@ -56,7 +56,7 @@ asyncTest('a watched pot', () => {
     }, 500)
 })
 
-asyncTest('you can place a time limit on how long an event should take', () => {
+asyncTest('You can place a time limit on how long an event should take', () => {
     let received = []
     let timeout = 2000
     let timeoutEvent = Observable.just('Tepid')
@@ -71,12 +71,12 @@ asyncTest('you can place a time limit on how long an event should take', () => {
     }, 3000)
 
     setTimeout(() => {
-        equal(__, received.join(', '))
+        equal('Started, Tepid', received.join(', '))
         start()
     }, 4000)
 })
 
-asyncTest('debouncing', () => {
+asyncTest('Debouncing', () => {
     expect(1)
 
     let received = []
@@ -95,19 +95,17 @@ asyncTest('debouncing', () => {
         events.onNext('rxjs')
 
         setTimeout(() => {
-            equal(__, received.join(' '))
+            equal('from rxjs', received.join(' '))
             start()
         }, 120)
     }, 120)
 })
 
-asyncTest('buffering', () => {
+asyncTest('Buffering', () => {
     let received = []
     let events = new Subject()
     events.bufferWithTime(100)
-        .map(function (c) {
-            return c.join('')
-        })
+        .map(c => c.join(''))
         .subscribe(received.push.bind(received))
 
     events.onNext('R')
@@ -123,23 +121,19 @@ asyncTest('buffering', () => {
         events.onNext('s')
 
         setTimeout(() => {
-            equal(__, received.join(' '))
+            equal('RxJS Rocks', received.join(' '))
             start()
         }, 120)
     }, 120)
 })
 
-asyncTest('time between calls', () => {
+asyncTest('Time between calls', () => {
     let received = []
     let events = new Subject()
 
     events.timeInterval()
-        .filter(function (t) {
-            return t.interval > 100
-        })
-        .subscribe(function (t) {
-            received.push(t.value)
-        })
+        .filter(t => t.interval > 100)
+        .subscribe(t => received.push(t.value))
 
     events.onNext('too')
     events.onNext('fast')
@@ -150,23 +144,21 @@ asyncTest('time between calls', () => {
         setTimeout(() => {
             events.onNext('down')
 
-            equal(__, received.join(' '))
+            equal('slow down', received.join(' '))
             start()
         }, 120)
     }, 120)
 })
 
-asyncTest('results can be ambiguous timing', () => {
+asyncTest('Results can be ambiguous timing', () => {
     let results = 0
     let fst = Observable.timer(400).map(-1)
     let snd = Observable.timer(500).map(1)
 
-    fst.amb(snd).subscribe(function (x) {
-        results = x
-    })
+    fst.amb(snd).subscribe(x => results = x)
 
     setTimeout(() => {
-        equal(results, __)
+        equal(results, -1)
         start()
     }, 600)
 })
