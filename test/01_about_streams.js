@@ -111,7 +111,7 @@ test('all events will be received', function () {
         received += x
     })
 
-    equal('98765', received)
+    equal('Working 98765', received)
 })
 
 test('do things in the middle', function () {
@@ -119,7 +119,7 @@ test('do things in the middle', function () {
     let daysTilTest = Observable.from(Range.create(4, 1))
 
     daysTilTest.tap((d) => {
-        status.push(d + '=' + (d === 1 ? 'Study Like Mad' : __))
+        status.push(d + '=' + (d === 1 ? 'Study Like Mad' : 'Party'))
     }).subscribe()
 
     equal('4=Party,3=Party,2=Party,1=Study Like Mad', status.toString())
@@ -133,7 +133,7 @@ test('nothing listens until you subscribe', function () {
         })
 
     equal(0, sum)
-    observable.__()
+    observable.subscribe()
 
     equal(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, sum)
 })
@@ -153,7 +153,7 @@ test('events before you subscribe do not count', function () {
     numbers.onNext(3)
     numbers.onNext(4)
 
-    equal(__, sum)
+    equal(7, sum)
 })
 
 test('events after you unsubscribe dont count', function () {
@@ -172,7 +172,7 @@ test('events after you unsubscribe dont count', function () {
     numbers.onNext(3)
     numbers.onNext(4)
 
-    equal(__, sum)
+    equal(3, sum)
 })
 
 test('events while subscribing', function () {
@@ -193,5 +193,5 @@ test('events while subscribing', function () {
 
     words.onNext('ugly')
 
-    equal(__, received.join(' '))
+    equal('you look pretty', received.join(' '))
 })
