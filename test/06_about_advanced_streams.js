@@ -7,7 +7,7 @@ QUnit.module('Advanced Streams')
 
 let __ = 'Fill in the blank'
 
-test('merging', () => {
+test('Merging', () => {
     let easy = []
     let you = Observable.of(1, 2, 3)
     let me = Observable.of('A', 'B', 'C')
@@ -15,7 +15,7 @@ test('merging', () => {
     equal(easy.join(' '), '1 A 2 B 3 C')
 })
 
-test('merging events', () => {
+test('Merging events', () => {
     let first = []
     let both = []
 
@@ -33,40 +33,40 @@ test('merging events', () => {
     s1.onNext('perfect.')
 
     equal('I am nobody. Nobody is perfect.', both.join(' '))
-    equal(__, first.join(' '))
+    equal('I am perfect.', first.join(' '))
 })
 
-test('splitting up', () => {
+test('Splitting up', () => {
     let oddsAndEvens = []
     let numbers = Observable.range(1, 9)
-    let split = numbers.groupBy((n) => n % __)
-    split.subscribe(group => {
+    let split = numbers.groupBy(n => n % 2)
+    split.subscribe(group =>
         group.subscribe((n) => {
             oddsAndEvens[group.key] || (oddsAndEvens[group.key] = '')
             oddsAndEvens[group.key] += n
         })
-    })
+    )
 
     equal('2468', oddsAndEvens[0])
     equal('13579', oddsAndEvens[1])
 })
 
-test('need to subscribe immediately when splitting', () => {
+test('Need to subscribe immediately when splitting', () => {
     let averages = [0, 0]
     let numbers = Observable.of(22, 22, 99, 22, 101, 22)
-    let split = numbers.groupBy((n) => n % 2)
+    let split = numbers.groupBy(n => n % 2)
 
-    split.subscribe(g => {
+    split.subscribe(g =>
         g.average().__(a => {
             averages[g.key] = a
         })
-    })
+    )
 
     equal(22, averages[0])
     equal(100, averages[1])
 })
 
-test('multiple subscriptions', () => {
+test('Multiple subscriptions', () => {
     let numbers = new Subject()
     let sum = 0
     let average = 0
