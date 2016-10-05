@@ -2,7 +2,8 @@ let Rx = require('rx'),
     Observable = Rx.Observable,
     EventEmitter = require('events').EventEmitter
 
-// QUnit.module('Querying')
+//noinspection JSAnnotator
+QUnit.module('Querying')
 
 let __ = 'Fill in the blank'
 
