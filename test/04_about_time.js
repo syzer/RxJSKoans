@@ -11,7 +11,7 @@ let __ = 'Fill in the blank'
 asyncTest('launching an event via a scheduler', () => {
     let state = null
     let received = ''
-    let delay = 500 // Fix this value
+    let delay = 50 // Fix this value
     Scheduler.default.scheduleFuture(state, delay, (scheduler, state) => {
         received = 'Finished'
     })
@@ -19,12 +19,12 @@ asyncTest('launching an event via a scheduler', () => {
     setTimeout(() => {
         start()
         equal('Finished', received)
-    }, 500)
+    }, 50)
 })
 
 asyncTest('launching an event in the future', () => {
     let received = null
-    let time = 500
+    let time = 50
 
     let people = new Subject()
     people.delay(time).subscribe(x => received = x)
@@ -33,13 +33,13 @@ asyncTest('launching an event in the future', () => {
     setTimeout(() => {
         equal('Godot', received)
         start()
-    }, 500)
+    }, 50)
 })
 
 asyncTest('A watched pot', () => {
     let received = ''
-    let delay = 500
-    let timeout = 600
+    let delay = 50
+    let timeout = 60
     let timeoutEvent = Observable.just('Tepid')
 
     Observable
@@ -53,12 +53,12 @@ asyncTest('A watched pot', () => {
     setTimeout(() => {
         equal(received, 'Boiling')
         start()
-    }, 500)
+    }, 50)
 })
 
 asyncTest('You can place a time limit on how long an event should take', () => {
     let received = []
-    let timeout = 2000
+    let timeout = 20
     let timeoutEvent = Observable.just('Tepid')
     let temperatures = new Subject()
 
@@ -68,12 +68,12 @@ asyncTest('You can place a time limit on how long an event should take', () => {
 
     setTimeout(() => {
         temperatures.onNext('Boiling')
-    }, 3000)
+    }, 30)
 
     setTimeout(() => {
         equal('Started, Tepid', received.join(', '))
         start()
-    }, 4000)
+    }, 40)
 })
 
 asyncTest('Debouncing', () => {
@@ -104,7 +104,7 @@ asyncTest('Debouncing', () => {
 asyncTest('Buffering', () => {
     let received = []
     let events = new Subject()
-    events.bufferWithTime(100)
+    events.bufferWithTime(10)
         .map(c => c.join(''))
         .subscribe(received.push.bind(received))
 
@@ -123,8 +123,8 @@ asyncTest('Buffering', () => {
         setTimeout(() => {
             equal('RxJS Rocks', received.join(' '))
             start()
-        }, 120)
-    }, 120)
+        }, 12)
+    }, 12)
 })
 
 asyncTest('Time between calls', () => {
@@ -152,13 +152,13 @@ asyncTest('Time between calls', () => {
 
 asyncTest('Results can be ambiguous timing', () => {
     let results = 0
-    let fst = Observable.timer(400).map(-1)
-    let snd = Observable.timer(500).map(1)
+    let fst = Observable.timer(40).map(-1)
+    let snd = Observable.timer(50).map(1)
 
     fst.amb(snd).subscribe(x => results = x)
 
     setTimeout(() => {
         equal(results, -1)
         start()
-    }, 600)
+    }, 60)
 })
