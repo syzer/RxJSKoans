@@ -6,7 +6,7 @@ QUnit.module('Mapping')
 
 let __ = 'Fill in the blank'
 
-// test('flatMap can be a cartesian product', () => {
+// test('FlatMap can be a cartesian product', () => {
 //     let results = []
 //     Observable.range(1, 3)
 //         .flatMap((x, i) => Observable.range(__, __))
@@ -16,7 +16,7 @@ let __ = 'Fill in the blank'
     // equal('234', results.join(''))
 // })
 
-test('flatMapLatest only gets us the latest value', () => {
+test('FlatMapLatest only gets us the latest value', () => {
     let results = []
     Observable.range(1, 3)
         .flatMapLatest(x => Observable.range(x, 3))

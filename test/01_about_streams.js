@@ -8,20 +8,20 @@ QUnit.module('Observable Streams')
 
 let __ = 'Fill in the blank'
 
-test('simple subscription', function () {
+test('simple subscription', () => {
     Observable.just(42).subscribe((x) => {
         equal(x, 42)
     })
 })
 
-test('what comes in goes out', function () {
+test('what comes in goes out', () => {
     Observable.just(101).subscribe((x) => {
         equal(x, 101)
     })
 })
 
 // Which interface Rx apply? (hint: what does "just()" return)
-test('this is the same as an event stream', function () {
+test('this is the same as an event stream', () => {
     let events = new Subject()
     events.subscribe((x) => {
         equal(37, x)
@@ -30,7 +30,7 @@ test('this is the same as an event stream', function () {
 })
 
 // What is the relationship between "this is the same as an event stream" and "simple subscription"?
-test('how event streams relate to observables', function () {
+test('how event streams relate to observables', () => {
     let observableResult = 1
     Observable.just(73).subscribe((x) => {
         observableResult = x
@@ -47,7 +47,7 @@ test('how event streams relate to observables', function () {
 })
 
 // What does Observable.just() map to for a Subject?
-test('event streams have multiple results', function () {
+test('event streams have multiple results', () => {
     let eventStreamResult = 0
     let events = new Subject()
     events.subscribe(x => {
@@ -61,7 +61,7 @@ test('event streams have multiple results', function () {
 })
 
 // What does Observable.just() map to for a Subject?
-test('simple return', function () {
+test('simple return', () => {
     let received = ''
     Observable.just('foo').subscribe((x) => {
         received = x
@@ -70,7 +70,7 @@ test('simple return', function () {
     equal('foo', received)
 })
 
-test('the last event', function () {
+test('the last event', () => {
     let received = ''
     let names = ['foo', 'bar']
     Observable.from(names).subscribe((x) => {
@@ -80,7 +80,7 @@ test('the last event', function () {
     equal('bar', received)
 })
 
-test('everything counts', function () {
+test('everything counts', () => {
     let received = 0
     let numbers = [3, 4]
     Observable.from(numbers).subscribe((x) => {
@@ -90,7 +90,7 @@ test('everything counts', function () {
     equal(7, received)
 })
 
-test('this is still an event stream', function () {
+test('this is still an event stream', () => {
     let received = 0
     let numbers = new Subject()
     numbers.subscribe((x) => {
@@ -104,7 +104,7 @@ test('this is still an event stream', function () {
 })
 
 // LOL
-test('all events will be received', function () {
+test('all events will be received', () => {
     let received = 'Working '
     let numbers = Range.create(9, 5)
 
@@ -115,7 +115,7 @@ test('all events will be received', function () {
     equal('Working 98765', received)
 })
 
-test('do things in the middle', function () {
+test('do things in the middle', () => {
     let status = []
     let daysTilTest = Observable.from(Range.create(4, 1))
 
@@ -126,7 +126,7 @@ test('do things in the middle', function () {
     equal('4=Party,3=Party,2=Party,1=Study Like Mad', status.toString())
 })
 
-test('nothing listens until you subscribe', function () {
+test('nothing listens until you subscribe', () => {
     let sum = 0,
         numbers = Observable.from(Range.create(1, 10)),
         observable = numbers.tap((n) => {
@@ -139,7 +139,7 @@ test('nothing listens until you subscribe', function () {
     equal(1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10, sum)
 })
 
-test('events before you subscribe do not count', function () {
+test('events before you subscribe do not count', () => {
     let sum = 0,
         numbers = new Subject(),
         observable = numbers.tap((n) => {
@@ -157,7 +157,7 @@ test('events before you subscribe do not count', function () {
     equal(7, sum)
 })
 
-test('events after you unsubscribe dont count', function () {
+test('events after you unsubscribe dont count', () => {
     let sum = 0,
         numbers = new Subject(),
         observable = numbers.tap((n) => {
@@ -176,7 +176,7 @@ test('events after you unsubscribe dont count', function () {
     equal(3, sum)
 })
 
-test('events while subscribing', function () {
+test('events while subscribing', () => {
     let received = [],
         words = new Subject(),
         observable = words.tap(received.push.bind(received))

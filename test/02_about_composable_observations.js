@@ -79,9 +79,7 @@ test('checking everything', () => {
 
     Observable.from(names)
         .every(x => x % 2 === 0)
-        .subscribe(x => {
-            received = x
-        })
+        .subscribe(x => received = x)
 
     equal(true, received)
 })
