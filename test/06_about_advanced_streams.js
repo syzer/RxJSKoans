@@ -57,9 +57,7 @@ test('Need to subscribe immediately when splitting', () => {
     let split = numbers.groupBy(n => n % 2)
 
     split.subscribe(g =>
-        g.average().__(a => {
-            averages[g.key] = a
-        })
+        g.average().subscribe(a => averages[g.key] = a)
     )
 
     equal(22, averages[0])
@@ -71,14 +69,14 @@ test('Multiple subscriptions', () => {
     let sum = 0
     let average = 0
 
-    numbers.sum().subscribe((n) => sum = n)
+    numbers.sum().subscribe(n => sum = n)
     numbers.onNext(1)
     numbers.onNext(1)
     numbers.onNext(1)
     numbers.onNext(1)
     numbers.onNext(1)
 
-    numbers.average().subscribe((n) => average = n)
+    numbers.average().subscribe(n => average = n)
     numbers.onNext(2)
     numbers.onNext(2)
     numbers.onNext(2)
@@ -88,5 +86,5 @@ test('Multiple subscriptions', () => {
     numbers.onCompleted()
 
     equal(15, sum)
-    equal(__, average)
+    equal(2, average)
 })
