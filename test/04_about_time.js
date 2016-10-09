@@ -81,7 +81,7 @@ asyncTest('Debouncing', () => {
 
     let received = []
     let events = new Subject()
-    events.debounce(100).subscribe(received.push.bind(received))
+    events.debounce(10).subscribe(received.push.bind(received))
 
     events.onNext('f')
     events.onNext('fr')
@@ -97,8 +97,8 @@ asyncTest('Debouncing', () => {
         setTimeout(() => {
             equal('from rxjs', received.join(' '))
             start()
-        }, 120)
-    }, 120)
+        }, 12)
+    }, 12)
 })
 
 asyncTest('Buffering', () => {
@@ -132,7 +132,7 @@ asyncTest('Time between calls', () => {
     let events = new Subject()
 
     events.timeInterval()
-        .filter(t => t.interval > 100)
+        .filter(t => t.interval > 10)
         .subscribe(t => received.push(t.value))
 
     events.onNext('too')
@@ -146,8 +146,8 @@ asyncTest('Time between calls', () => {
 
             equal('slow down', received.join(' '))
             start()
-        }, 120)
-    }, 120)
+        }, 12)
+    }, 12)
 })
 
 asyncTest('Results can be ambiguous timing', () => {
